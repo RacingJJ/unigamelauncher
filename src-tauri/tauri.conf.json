@@ -1,0 +1,14 @@
+[build]
+beforeDevCommand = "npm run dev"
+beforeBuildCommand = "npm run build"
+devUrl = "http://localhost:1420"
+frontendDist = "../dist"
+
+[app]
+withGlobalTauri = false
+
+[app.security]
+csp = "default-src 'self'; img-src 'self' https: data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com"
+
+[app.windows]
+decorations = false
