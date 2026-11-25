@@ -1,29 +1,19 @@
-# UniGame Launcher
+# UniGameLauncher
 
-A small Windows game library made as a single Python source file. It can launch games using an executable path or a platform launch URI, including Steam, Epic Games, Roblox, itch.io, and standalone games. Your library is stored locally in `%APPDATA%\\UniGameLauncher\\games.json`.
+### One launcher. All your games.
 
-## Build one portable executable
+UniGameLauncher is a Windows desktop application designed to bring your entire gaming library into one convenient place.
 
-Install Python 3.10+ for Windows, then install the one build dependency:
+Automatically discover installed games, organize your collection, launch games quickly, and manage your gaming experience through a clean and modern interface.
 
-```powershell
-py -m pip install pyinstaller
-```
+**Features**
+- Automatic game detection and scanning
+- Custom game library management
+- Add and remove games
+- Game statistics and tracking
+- Customizable settings
+- Modern home screen
+- Windows desktop and Start Menu shortcuts
 
-Run the Python file from a terminal or double-click it:
-
-```powershell
-py launcher.py
-```
-
-The script builds a single-file, windowed executable at `dist\\UniGameLauncher.exe`. Copy that EXE to another Windows PC to use it; the game files and game launchers themselves are not bundled. The target PC may need the Microsoft Edge WebView2 Runtime only for the old Tauri version; the Python/Tkinter build does not use WebView2.
-
-To run the app from Python without building:
-
-```powershell
-py launcher.py --run
-```
-
-## Add games
-
-Choose **Add game**, provide a name and platform, and enter an `.exe` path or a launch URI. Steam accepts an app ID (for example `123456`) or `steam://rungameid/123456`. You can also use protocol links such as `roblox://...` or `com.epicgames.launcher://...` where supported by your installed launcher.
+**Platform:** Windows 10 / Windows 11  
+**Status:** In Development
