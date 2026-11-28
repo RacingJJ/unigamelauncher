@@ -539,9 +539,10 @@ class Launcher:
         self.root.minsize(950, 620)
         self.root.configure(bg=BG)
         try:
-            self.root.iconphoto(True, tk.PhotoImage(data=LOGO_GIF_BASE64))
+            self.window_icon_image = tk.PhotoImage(data=LOGO_GIF_BASE64)
+            self.root.iconphoto(True, self.window_icon_image)
         except tk.TclError:
-            pass
+            self.window_icon_image = None
 
         self.search_var = tk.StringVar()
         self.status_var = tk.StringVar(value="Ready")
