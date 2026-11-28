@@ -725,137 +725,92 @@ class Launcher:
         )
 
     def build_layout(self):
-        self.sidebar = tk.Frame(self.root, bg=SIDEBAR, width=215)
+        self.sidebar = tk.Frame(self.root, bg=SIDEBAR, width=226)
         self.sidebar.pack(side="left", fill="y")
         self.sidebar.pack_propagate(False)
 
         brand = tk.Frame(self.sidebar, bg=SIDEBAR)
-        brand.pack(fill="x", padx=18, pady=(25, 32))
+        brand.pack(fill="x", padx=18, pady=(23, 30))
+        mark = tk.Frame(brand, bg=ACCENT, width=36, height=36)
+        mark.pack(side="left", padx=(0, 10))
+        mark.pack_propagate(False)
+        self.label(mark, "U", 19, "white", True, bg=ACCENT).place(relx=.5, rely=.5, anchor="center")
+        brand_text = tk.Frame(brand, bg=SIDEBAR)
+        brand_text.pack(side="left")
+        self.label(brand_text, "UniGame", 15, TEXT, True, bg=SIDEBAR).pack(anchor="w")
+        self.label(brand_text, "GAME LIBRARY", 7, MUTED, True, bg=SIDEBAR).pack(anchor="w", pady=(1, 0))
 
-        self.label(
-            brand, "U", 22, "white", True, bg=ACCENT,
-            width=2, pady=4
-        ).pack(side="left", padx=(0, 10))
-
-        self.label(
-            brand, "UniGame", 16, bold=True, bg=SIDEBAR
-        ).pack(side="left")
-
-        self.label(
-            self.sidebar, "WORKSPACE", 8, MUTED, True, bg=SIDEBAR
-        ).pack(anchor="w", padx=20, pady=(0, 9))
-
+        self.label(self.sidebar, "YOUR SPACE", 8, MUTED, True, bg=SIDEBAR).pack(anchor="w", padx=20, pady=(0, 9))
         self.nav = {}
         for name, symbol in [
-            ("Library", "▦"),
-            ("Wishlist", "♡"),
-            ("Store", "⌕"),
-            ("Statistics", "▥"),
-            ("Profiles", "◉"),
-            ("Social", "◎"),
-            ("Performance", "⚡"),
-            ("Settings", "⚙")
+            ("Library", "▦"), ("Wishlist", "♡"), ("Store", "⌕"),
+            ("Statistics", "▥"), ("Profiles", "◉"), ("Social", "◎"),
+            ("Performance", "ϟ"), ("Settings", "⚙")
         ]:
             self.add_nav(name, symbol)
 
-        self.label(
-            self.sidebar, "TOOLS", 8, MUTED, True, bg=SIDEBAR
-        ).pack(anchor="w", padx=20, pady=(26, 9))
-
+        self.label(self.sidebar, "MANAGE", 8, MUTED, True, bg=SIDEBAR).pack(anchor="w", padx=20, pady=(24, 9))
         self.add_nav("Scan PC", "↻")
         self.add_nav("Add game", "+")
 
         bottom = tk.Frame(self.sidebar, bg=SIDEBAR)
-        bottom.pack(side="bottom", fill="x", padx=17, pady=17)
-
-        tk.Frame(bottom, bg=BORDER, height=1).pack(fill="x", pady=(0, 12))
-
-        self.label(
-            bottom, "ACTIVE PROFILE", 8, MUTED, True, bg=SIDEBAR
-        ).pack(anchor="w")
-
-        profile_row = tk.Frame(bottom, bg=SIDEBAR)
-        profile_row.pack(fill="x", pady=(7, 0))
-
+        bottom.pack(side="bottom", fill="x", padx=15, pady=16)
+        tk.Frame(bottom, bg=BORDER, height=1).pack(fill="x", pady=(0, 13))
+        self.label(bottom, "CURRENT PROFILE", 7, MUTED, True, bg=SIDEBAR).pack(anchor="w", padx=3)
         self.profile_box = ttk.Combobox(
-            profile_row,
-            textvariable=self.profile_var,
-            values=list(self.data["profiles"]),
-            state="readonly",
-            width=15
+            bottom, textvariable=self.profile_var,
+            values=list(self.data["profiles"]), state="readonly"
         )
-        self.profile_box.pack(side="left", fill="x", expand=True)
-        self.profile_box.bind(
-            "<<ComboboxSelected>>",
-            lambda event: self.switch_profile(self.profile_var.get())
-        )
+        self.profile_box.pack(fill="x", pady=(7, 0), ipady=4)
+        self.profile_box.bind("<<ComboboxSelected>>", lambda event: self.switch_profile(self.profile_var.get()))
 
         self.main = tk.Frame(self.root, bg=BG)
         self.main.pack(side="left", fill="both", expand=True)
 
-        top = tk.Frame(self.main, bg=BG, height=72)
-        top.pack(fill="x", padx=27)
+        top = tk.Frame(self.main, bg=BG, height=76)
+        top.pack(fill="x", padx=30)
         top.pack_propagate(False)
+        top_left = tk.Frame(top, bg=BG)
+        top_left.pack(side="left", fill="y")
+        self.label(top_left, "UNIGAME LAUNCHER  /  DESKTOP", 8, MUTED, True).pack(anchor="w", pady=(17, 2))
+        self.label(top_left, "Your games, organized.", 12, TEXT, True).pack(anchor="w")
 
-        self.label(
-            top, "YOUR GAMING SPACE", 9, MUTED, True
-        ).pack(side="left", pady=25)
-
+        search_wrap = tk.Frame(top, bg=PANEL, highlightbackground=BORDER, highlightthickness=1)
+        search_wrap.pack(side="right", pady=17)
+        self.label(search_wrap, "⌕", 14, MUTED, True, bg=PANEL).pack(side="left", padx=(11, 5))
         self.search_entry = tk.Entry(
-            top,
-            textvariable=self.search_var,
-            bg=PANEL,
-            fg=TEXT,
-            insertbackground=TEXT,
-            relief="flat",
-            width=28,
-            font=("Segoe UI", 10)
+            search_wrap, textvariable=self.search_var, bg=PANEL, fg=TEXT,
+            insertbackground=TEXT, relief="flat", width=27, font=("Segoe UI", 10),
+            highlightthickness=0, bd=0
         )
-        self.search_entry.pack(side="right", pady=17, ipady=9, padx=5)
-        self.search_entry.insert(0, "Search...")
+        self.search_entry.pack(side="left", padx=(0, 12), ipady=9)
+        self.search_entry.insert(0, "Search games...")
         self.search_entry.bind("<FocusIn>", self.search_focus)
         self.search_entry.bind("<FocusOut>", self.search_blur)
         self.search_entry.bind("<KeyRelease>", self.on_search_key)
 
         self.content = tk.Frame(self.main, bg=BG)
-        self.content.pack(fill="both", expand=True, padx=27, pady=(4, 12))
+        self.content.pack(fill="both", expand=True, padx=30, pady=(0, 12))
         self.root.bind_all("<MouseWheel>", self.on_mousewheel)
 
-        footer = tk.Frame(self.main, bg=SIDEBAR, height=27)
+        footer = tk.Frame(self.main, bg=SIDEBAR, height=29)
         footer.pack(side="bottom", fill="x")
         footer.pack_propagate(False)
-
-        self.label(
-            footer, APP_NAME + "  " + APP_VERSION,
-            8, MUTED, bg=SIDEBAR
-        ).pack(side="left", padx=12)
-
-        self.label(
-            footer, "", 8, MUTED, bg=SIDEBAR
-        ).pack(side="right", padx=12)
-
+        self.label(footer, APP_NAME + "  ·  " + APP_VERSION, 8, MUTED, bg=SIDEBAR).pack(side="left", padx=14)
         self.status_label = tk.Label(
-            footer, textvariable=self.status_var,
-            bg=SIDEBAR, fg=MUTED, font=("Segoe UI", 8)
+            footer, textvariable=self.status_var, bg=SIDEBAR,
+            fg=MUTED, font=("Segoe UI", 8)
         )
-        self.status_label.pack(side="right", padx=12)
+        self.status_label.pack(side="right", padx=14)
 
     def add_nav(self, name, symbol):
         button = tk.Button(
-            self.sidebar,
-            text=f"  {symbol}    {name}",
-            command=lambda n=name: self.navigate(n),
-            anchor="w",
-            bg=SIDEBAR,
-            fg=MUTED,
-            activebackground=CARD,
-            activeforeground=TEXT,
-            relief="flat",
-            bd=0,
-            padx=15,
-            pady=10,
-            cursor="hand2",
-            font=("Segoe UI", 9)
+            self.sidebar, text=f"  {symbol}     {name}",
+            command=lambda n=name: self.navigate(n), anchor="w",
+            bg=SIDEBAR, fg=MUTED, activebackground=CARD,
+            activeforeground=TEXT, relief="flat", bd=0,
+            padx=14, pady=11, cursor="hand2",
+            font=("Segoe UI", 9, "bold")
         )
         button.pack(fill="x", padx=10, pady=2)
         self.nav[name] = button
@@ -957,30 +912,49 @@ class Launcher:
     # --------------------------------------------------------
 
     def page_library(self):
-        self.page_heading(
-            "Your collection",
-            "Game library",
-            f"{len(self.games)} games in the {self.active_profile} profile"
-        )
+        total = len(self.games)
+        total_seconds = sum(int(game.get("play_seconds", 0) or 0) for game in self.games)
+        total_launches = sum(int(game.get("launches", 0) or 0) for game in self.games)
 
-        banner = tk.Frame(self.content, bg=PANEL, height=105)
-        banner.pack(fill="x", pady=(0, 17))
-        banner.pack_propagate(False)
+        heading = tk.Frame(self.content, bg=BG)
+        heading.pack(fill="x", pady=(15, 16))
+        heading_left = tk.Frame(heading, bg=BG)
+        heading_left.pack(side="left")
+        self.label(heading_left, "YOUR COLLECTION", 8, ACCENT, True).pack(anchor="w")
+        self.label(heading_left, "Game library", 25, TEXT, True).pack(anchor="w", pady=(3, 0))
+        self.label(heading_left, f"Everything you play, all in one place · {self.active_profile}", 9, MUTED).pack(anchor="w", pady=(4, 0))
+        self.button(heading, "+ Add game", self.game_form, True).pack(side="right", padx=(8, 0), pady=13)
+        self.button(heading, "↻ Scan PC", self.scan_games).pack(side="right", pady=13)
 
-        left = tk.Frame(banner, bg=PANEL)
-        left.pack(side="left", padx=20, pady=17)
+        hero = tk.Frame(self.content, bg="#202936", highlightbackground="#344151", highlightthickness=1)
+        hero.pack(fill="x", pady=(0, 15))
+        hero_left = tk.Frame(hero, bg="#202936")
+        hero_left.pack(side="left", fill="both", expand=True, padx=21, pady=18)
+        self.label(hero_left, "READY WHEN YOU ARE", 8, "#F18A79", True, bg="#202936").pack(anchor="w")
+        self.label(hero_left, "Pick up where you left off.", 17, TEXT, True, bg="#202936").pack(anchor="w", pady=(5, 3))
+        self.label(hero_left, "Launch a game or add something new to your collection.", 9, "#B3BDCA", bg="#202936").pack(anchor="w")
+        hero_mark = tk.Frame(hero, bg="#293747", width=104, height=90)
+        hero_mark.pack(side="right", padx=20, pady=12)
+        hero_mark.pack_propagate(False)
+        self.label(hero_mark, "U", 43, "#DDE5EF", True, bg="#293747").place(relx=.5, rely=.5, anchor="center")
 
-        self.label(left, "YOUR GAMES, ONE PLACE", 8, ACCENT, True, bg=PANEL).pack(anchor="w")
-        self.label(left, "Ready for your next session?", 16, bold=True, bg=PANEL).pack(anchor="w", pady=(5, 0))
+        stats = tk.Frame(self.content, bg=BG)
+        stats.pack(fill="x", pady=(0, 17))
+        stat_values = [
+            ("GAMES", str(total)),
+            ("TOTAL PLAYTIME", format_time(total_seconds)),
+            ("LAUNCHES", str(total_launches)),
+            ("WISHLIST", str(len(self.wishlist)))
+        ]
+        for index, (caption, value) in enumerate(stat_values):
+            tile = tk.Frame(stats, bg=PANEL, highlightbackground=BORDER, highlightthickness=1, padx=14, pady=10)
+            tile.pack(side="left", fill="x", expand=True, padx=(0 if index == 0 else 7, 7 if index < 3 else 0))
+            self.label(tile, caption, 7, MUTED, True, bg=PANEL).pack(anchor="w")
+            self.label(tile, value, 16, TEXT, True, bg=PANEL).pack(anchor="w", pady=(4, 0))
 
-        self.button(
-            banner, "+ Add game", self.game_form, True
-        ).pack(side="right", padx=18, pady=28)
-
-        self.button(
-            banner, "Scan PC", self.scan_games
-        ).pack(side="right", pady=28)
-
+        toolbar = tk.Frame(self.content, bg=BG)
+        toolbar.pack(fill="x", pady=(0, 9))
+        self.label(toolbar, "ALL GAMES", 9, TEXT, True).pack(side="left")
         query = self.search_query()
         visible = [
             (i, game) for i, game in enumerate(self.games)
@@ -988,48 +962,32 @@ class Launcher:
             or query in game.get("source", "").lower()
             or query in game.get("category", "").lower()
         ]
-
-        row = tk.Frame(self.content, bg=BG)
-        row.pack(fill="x", pady=(0, 9))
-        self.label(row, "ALL GAMES", 10, bold=True).pack(side="left")
-        self.label(row, f"{len(visible)} results", 9, MUTED).pack(side="right")
+        self.label(toolbar, f"{len(visible)} shown", 8, MUTED).pack(side="right")
 
         outer = tk.Frame(self.content, bg=BG)
         outer.pack(fill="both", expand=True)
-
-        canvas = tk.Canvas(outer, bg=BG, highlightthickness=0)
-        scrollbar = ttk.Scrollbar(
-            outer, orient="vertical", command=canvas.yview,
-            style="Vertical.TScrollbar"
-        )
+        canvas = tk.Canvas(outer, bg=BG, highlightthickness=0, bd=0)
+        scrollbar = ttk.Scrollbar(outer, orient="vertical", command=canvas.yview, style="Vertical.TScrollbar")
         container = tk.Frame(canvas, bg=BG)
-
-        container.bind(
-            "<Configure>",
-            lambda event: canvas.configure(scrollregion=canvas.bbox("all"))
-        )
+        container.bind("<Configure>", lambda event: canvas.configure(scrollregion=canvas.bbox("all")))
         window = canvas.create_window((0, 0), window=container, anchor="nw")
-        canvas.bind(
-            "<Configure>",
-            lambda event: canvas.itemconfigure(window, width=event.width)
-        )
+        canvas.bind("<Configure>", lambda event: canvas.itemconfigure(window, width=event.width))
         canvas.configure(yscrollcommand=scrollbar.set)
         canvas.pack(side="left", fill="both", expand=True)
         scrollbar.pack(side="right", fill="y")
         self._library_canvas = canvas
 
         if not visible:
-            self.label(
-                container, "No games found", 16, MUTED, True
-            ).pack(pady=55)
-            self.label(
-                container, "Add a game or scan your PC to get started.", 9, MUTED
-            ).pack()
+            empty = tk.Frame(container, bg=PANEL, highlightbackground=BORDER, highlightthickness=1, padx=25, pady=28)
+            empty.pack(fill="x", pady=12)
+            title = "No games match your search" if self.games else "Your library is ready for its first game"
+            subtitle = "Try another title, or clear the search field." if self.games else "Add a game manually or scan your PC to find installed games."
+            self.label(empty, title, 14, TEXT, True, bg=PANEL).pack()
+            self.label(empty, subtitle, 9, MUTED, bg=PANEL).pack(pady=(7, 13))
+            self.button(empty, "+ Add your first game", self.game_form, True).pack()
             return
 
-        self.render_game_cards(
-            container, visible, self._library_render_token, start=0
-        )
+        self.render_game_cards(container, visible, self._library_render_token, start=0)
 
     def render_game_cards(self, parent, visible, token, start=0):
         if self._closing or token != self._library_render_token:
