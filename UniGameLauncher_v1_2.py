@@ -25,7 +25,7 @@ from tkinter import ttk, filedialog, messagebox, simpledialog
 
 
 APP_NAME = "UniGame Launcher"
-APP_VERSION = "1.2.0"
+APP_VERSION = "1.3.0"
 SUPABASE_URL = "https://lhpfzapygjwxdhggxgkm.supabase.co"
 SUPABASE_KEY = "sb_publishable_vv7ItOqJe6I_KeZn0o70Tg_rYV7-X1H"
 
