@@ -29,19 +29,6 @@ APP_VERSION = "1.3.0"
 SUPABASE_URL = "https://lhpfzapygjwxdhggxgkm.supabase.co"
 SUPABASE_KEY = "sb_publishable_vv7ItOqJe6I_KeZn0o70Tg_rYV7-X1H"
 
-BG = "#0B0E13"
-SIDEBAR = "#10151D"
-PANEL = "#151C26"
-CARD = "#1A2330"
-BORDER = "#263242"
-TEXT = "#F4F6FA"
-MUTED = "#98A6B8"
-ACCENT = "#8B5CF6"
-GREEN = "#45D49A"
-APP_VERSION = "1.2.0"
-SUPABASE_URL = "https://lhpfzapygjwxdhggxgkm.supabase.co"
-SUPABASE_KEY = "sb_publishable_vv7ItOqJe6I_KeZn0o70Tg_rYV7-X1H"
-
 BG = "#101216"
 SIDEBAR = "#171B22"
 PANEL = "#202630"
@@ -510,7 +497,6 @@ class Launcher:
         global ACCENT
         ensure_data_folder()
 
-        self.data = load_json(DATA_FILE, default_data())        self.settings = load_json(SETTINGS_FILE, {
         self.data = load_json(DATA_FILE, default_data())
         self.settings = load_json(SETTINGS_FILE, {
             "theme": "Dark",
@@ -739,48 +725,11 @@ class Launcher:
         )
 
     def build_layout(self):
-        self.sidebar = tk.Frame(self.root, bg=SIDEBAR, width=238)
         self.sidebar = tk.Frame(self.root, bg=SIDEBAR, width=215)
         self.sidebar.pack(side="left", fill="y")
         self.sidebar.pack_propagate(False)
 
         brand = tk.Frame(self.sidebar, bg=SIDEBAR)
-        brand.pack(fill="x", padx=20, pady=(23, 28))
-        mark = tk.Canvas(brand, width=34, height=34, bg=SIDEBAR, highlightthickness=0)
-        mark.pack(side="left", padx=(0, 11))
-        mark.create_rounded_rectangle = None
-        mark.create_rectangle(1, 1, 33, 33, fill=ACCENT, outline="")
-        mark.create_text(17, 17, text="U", fill="white", font=("Segoe UI", 18, "bold"))
-        self.label(brand, "UniGame", 17, TEXT, True, bg=SIDEBAR).pack(side="left")
-        self.label(brand, "BETA", 7, ACCENT, True, bg=SIDEBAR).pack(side="left", padx=(7, 0), pady=(8, 0))
-
-        self.nav = {}
-        self.label(self.sidebar, "YOUR LIBRARY", 8, MUTED, True, bg=SIDEBAR).pack(anchor="w", padx=20, pady=(0, 8))
-        for name, symbol in [("Library", "▦"), ("Wishlist", "♡"), ("Store", "◇")]:
-            self.add_nav(name, symbol)
-        self.label(self.sidebar, "COMMUNITY", 8, MUTED, True, bg=SIDEBAR).pack(anchor="w", padx=20, pady=(23, 8))
-        for name, symbol in [("Social", "◎"), ("Profiles", "◉"), ("Statistics", "▥")]:
-            self.add_nav(name, symbol)
-        self.label(self.sidebar, "MANAGE", 8, MUTED, True, bg=SIDEBAR).pack(anchor="w", padx=20, pady=(23, 8))
-        for name, symbol in [("Performance", "ϟ"), ("Settings", "⚙"), ("Scan PC", "↻"), ("Add game", "+")]:
-            self.add_nav(name, symbol)
-
-        bottom = tk.Frame(self.sidebar, bg=SIDEBAR)
-        bottom.pack(side="bottom", fill="x", padx=16, pady=16)
-        tk.Frame(bottom, bg=BORDER, height=1).pack(fill="x", pady=(0, 13))
-        profile_row = tk.Frame(bottom, bg=PANEL, padx=10, pady=9)
-        profile_row.pack(fill="x")
-        avatar = tk.Canvas(profile_row, width=32, height=32, bg=PANEL, highlightthickness=0)
-        avatar.pack(side="left", padx=(0, 9))
-        avatar.create_oval(1, 1, 31, 31, fill=ACCENT, outline="")
-        avatar.create_text(16, 16, text=self.active_profile[:1].upper(), fill="white", font=("Segoe UI", 11, "bold"))
-        profile_text = tk.Frame(profile_row, bg=PANEL)
-        profile_text.pack(side="left", fill="x", expand=True)
-        self.label(profile_text, self.active_profile, 9, TEXT, True, bg=PANEL).pack(anchor="w")
-        self.label(profile_text, "Local profile", 7, MUTED, bg=PANEL).pack(anchor="w")
-        self.profile_box = ttk.Combobox(bottom, textvariable=self.profile_var, values=list(self.data["profiles"]), state="readonly", width=18)
-        self.profile_box.pack(fill="x", pady=(8, 0))
-        self.profile_box.bind("<<ComboboxSelected>>", lambda event: self.switch_profile(self.profile_var.get()))
         brand.pack(fill="x", padx=18, pady=(25, 32))
 
         self.label(
@@ -844,38 +793,6 @@ class Launcher:
         self.main = tk.Frame(self.root, bg=BG)
         self.main.pack(side="left", fill="both", expand=True)
 
-        top = tk.Frame(self.main, bg=BG, height=76)
-        top.pack(fill="x", padx=30)
-        top.pack_propagate(False)
-        search_shell = tk.Frame(top, bg=PANEL, highlightbackground=BORDER, highlightthickness=1)
-        search_shell.pack(side="left", fill="x", expand=True, pady=17, padx=(0, 18))
-        self.label(search_shell, "⌕", 17, MUTED, bg=PANEL).pack(side="left", padx=(13, 7))
-        self.search_entry = tk.Entry(search_shell, textvariable=self.search_var, bg=PANEL, fg=TEXT, insertbackground=TEXT, relief="flat", font=("Segoe UI", 10))
-        self.search_entry.pack(side="left", fill="x", expand=True, ipady=9, padx=(0, 12))
-        self.search_entry.insert(0, "Search your games")
-        self.search_entry.bind("<FocusIn>", self.search_focus)
-        self.search_entry.bind("<FocusOut>", self.search_blur)
-        self.search_entry.bind("<KeyRelease>", self.on_search_key)
-        self.label(top, "YOUR GAMING SPACE", 8, MUTED, True).pack(side="right", pady=28)
-
-        self.content = tk.Frame(self.main, bg=BG)
-        self.content.pack(fill="both", expand=True, padx=30, pady=(0, 13))
-        self.root.bind_all("<MouseWheel>", self.on_mousewheel)
-
-        footer = tk.Frame(self.main, bg=SIDEBAR, height=28)
-        footer.pack(side="bottom", fill="x")
-        footer.pack_propagate(False)
-        self.label(footer, APP_NAME + "  " + APP_VERSION, 8, MUTED, bg=SIDEBAR).pack(side="left", padx=14)
-        self.status_label = tk.Label(footer, textvariable=self.status_var, bg=SIDEBAR, fg=MUTED, font=("Segoe UI", 8))
-        self.status_label.pack(side="right", padx=14)
-
-    def add_nav(self, name, symbol):
-        button = tk.Button(
-            self.sidebar, text=f"  {symbol}    {name}",
-            command=lambda n=name: self.navigate(n), anchor="w",
-            bg=SIDEBAR, fg=MUTED, activebackground=CARD, activeforeground=TEXT,
-            relief="flat", bd=0, padx=14, pady=11, cursor="hand2",
-            font=("Segoe UI", 9, "bold")
         top = tk.Frame(self.main, bg=BG, height=72)
         top.pack(fill="x", padx=27)
         top.pack_propagate(False)
@@ -1071,49 +988,6 @@ class Launcher:
             or query in game.get("source", "").lower()
             or query in game.get("category", "").lower()
         ]
-        total_played = sum(int(g.get("play_seconds", 0) or 0) for g in self.games)
-        featured = max(self.games, key=lambda g: int(g.get("play_seconds", 0) or 0), default=None)
-
-        heading = tk.Frame(self.content, bg=BG)
-        heading.pack(fill="x", pady=(17, 15))
-        left = tk.Frame(heading, bg=BG)
-        left.pack(side="left")
-        self.label(left, "YOUR COLLECTION", 8, ACCENT, True).pack(anchor="w")
-        self.label(left, "Game library", 25, TEXT, True).pack(anchor="w", pady=(3, 0))
-        self.label(left, f"{len(self.games)} games  ·  {format_time(total_played)} played", 9, MUTED).pack(anchor="w", pady=(4, 0))
-        self.button(heading, "+ Add game", self.game_form, True).pack(side="right", padx=(8, 0), pady=8)
-        self.button(heading, "↻ Scan PC", self.scan_games).pack(side="right", pady=8)
-
-        if featured and not query:
-            hero = tk.Frame(self.content, bg="#20243A", height=190, highlightbackground="#34314F", highlightthickness=1)
-            hero.pack(fill="x", pady=(0, 20))
-            hero.pack_propagate(False)
-            art = tk.Canvas(hero, width=245, height=190, bg="#282447", highlightthickness=0)
-            art.pack(side="right", fill="y")
-            art.create_polygon(40, 190, 140, 0, 245, 0, 245, 190, fill="#3D356A", outline="")
-            art.create_oval(115, 20, 270, 175, fill="#6654A8", outline="")
-            art.create_oval(150, 53, 238, 141, fill="#2A2548", outline="")
-            info = tk.Frame(hero, bg="#20243A")
-            info.pack(side="left", fill="both", expand=True, padx=24, pady=20)
-            self.label(info, "PICK UP WHERE YOU LEFT OFF", 8, "#B8A9FF", True, bg="#20243A").pack(anchor="w")
-            self.label(info, featured.get("title", "Your next game"), 20, TEXT, True, bg="#20243A").pack(anchor="w", pady=(8, 3))
-            self.label(info, f"{featured.get('source', 'PC')}  ·  {format_time(featured.get('play_seconds', 0))} played", 9, "#B5B4C9", bg="#20243A").pack(anchor="w")
-            self.button(info, "▶  Play now", lambda g=featured: self.play_game(self.games.index(g)), True).pack(anchor="w", pady=(14, 0))
-
-        shelves = tk.Frame(self.content, bg=BG)
-        shelves.pack(fill="x", pady=(0, 11))
-        self.label(shelves, "All games", 13, TEXT, True).pack(side="left")
-        self.label(shelves, f"{len(visible)} titles", 9, MUTED).pack(side="left", padx=10)
-        self.label(shelves, "Recently played and favorites appear first", 8, MUTED).pack(side="right")
-
-        outer = tk.Frame(self.content, bg=BG)
-        outer.pack(fill="both", expand=True)
-        canvas = tk.Canvas(outer, bg=BG, highlightthickness=0)
-        scrollbar = ttk.Scrollbar(outer, orient="vertical", command=canvas.yview, style="Vertical.TScrollbar")
-        container = tk.Frame(canvas, bg=BG)
-        container.bind("<Configure>", lambda event: canvas.configure(scrollregion=canvas.bbox("all")))
-        window = canvas.create_window((0, 0), window=container, anchor="nw")
-        canvas.bind("<Configure>", lambda event: canvas.itemconfigure(window, width=event.width))
 
         row = tk.Frame(self.content, bg=BG)
         row.pack(fill="x", pady=(0, 9))
@@ -1145,11 +1019,6 @@ class Launcher:
         self._library_canvas = canvas
 
         if not visible:
-            self.label(container, "No games match that search", 16, MUTED, True).pack(pady=55)
-            self.label(container, "Try another title, or add a game to your collection.", 9, MUTED).pack()
-            return
-        visible.sort(key=lambda pair: (not bool(pair[1].get("favorite")), -int(pair[1].get("play_seconds", 0) or 0), pair[1].get("title", "").lower()))
-        self.render_game_cards(container, visible, self._library_render_token, start=0)
             self.label(
                 container, "No games found", 16, MUTED, True
             ).pack(pady=55)
@@ -1165,39 +1034,6 @@ class Launcher:
     def render_game_cards(self, parent, visible, token, start=0):
         if self._closing or token != self._library_render_token:
             return
-        stop = min(start + 12, len(visible))
-        columns = max(2, min(5, int(max(600, self.root.winfo_width() - 300) / 232)))
-        for offset, (index, game) in enumerate(visible[start:stop], start=start):
-            self.game_card(parent, index, game, row=offset // columns, column=offset % columns)
-        if stop < len(visible):
-            self._library_render_after = self.root.after(1, lambda: self.render_game_cards(parent, visible, token, start=stop))
-        else:
-            self._library_render_after = None
-
-    def game_card(self, parent, index, game, row=0, column=0):
-        palette = ["#253B55", "#3A3156", "#244B48", "#56382F", "#3C3D58", "#4A354A", "#29485A", "#51442E"]
-        seed = sum(ord(char) for char in game.get("title", "Game"))
-        base = palette[seed % len(palette)]
-        card = tk.Frame(parent, bg=CARD, highlightbackground=BORDER, highlightthickness=1, width=210)
-        card.grid(row=row, column=column, padx=(0, 13), pady=(0, 14), sticky="n")
-        card.grid_propagate(False)
-
-        art = tk.Canvas(card, width=208, height=155, bg=base, highlightthickness=0)
-        art.pack(fill="x")
-        art.create_oval(115, -48, 270, 108, fill=ACCENT if seed % 3 == 0 else "#647AA5", outline="")
-        art.create_polygon(0, 120, 82, 40, 154, 155, 0, 155, fill="#101722", outline="")
-        art.create_polygon(94, 155, 165, 66, 208, 108, 208, 155, fill="#18202D", outline="")
-        initials = "".join(word[0] for word in game.get("title", "G").split()[:3]).upper()
-        art.create_text(16, 18, text=game.get("source", "PC").upper(), anchor="nw", fill="#E3E8F0", font=("Segoe UI", 7, "bold"))
-        art.create_text(17, 104, text=initials[:3], anchor="w", fill="#FFFFFF", font=("Segoe UI", 25, "bold"))
-        body = tk.Frame(card, bg=CARD, padx=11, pady=10)
-        body.pack(fill="both", expand=True)
-        self.label(body, game.get("title", "Untitled"), 9, TEXT, True, bg=CARD, wraplength=184, justify="left").pack(anchor="w")
-        self.label(body, f"{format_time(game.get('play_seconds', 0))} played  ·  {game.get('source', 'PC')}", 7, MUTED, bg=CARD).pack(anchor="w", pady=(5, 9))
-        actions = tk.Frame(body, bg=CARD)
-        actions.pack(fill="x")
-        self.button(actions, "Play", lambda i=index: self.play_game(i), True).pack(side="left")
-        self.button(actions, "Details", lambda i=index: self.game_details(i)).pack(side="right")
 
         # Add cards in small batches so large libraries do not freeze the UI.
         stop = min(start + 18, len(visible))
@@ -1661,7 +1497,6 @@ class Launcher:
         ]
 
         for name, url in stores:
-            card = self.section_card()            card.pack(fill="x", pady=5)
             card = self.section_card()
             card.pack(fill="x", pady=5)
 
@@ -2162,7 +1997,6 @@ class Launcher:
         boot_animation = tk.StringVar(value=self.settings.get("boot_animation", "Pulse"))
 
         tk.Checkbutton(
-            card, text="Automatically scan for games on startup",            variable=auto_scan, bg=PANEL, fg=TEXT,
             card, text="Automatically scan for games on startup",
             variable=auto_scan, bg=PANEL, fg=TEXT,
             selectcolor=BG, activebackground=PANEL,
@@ -2647,5 +2481,4 @@ if __name__ == "__main__":
         else:
             Installer().run()
     else:
-        Launcher().run()
         Launcher().run()
