@@ -39,6 +39,9 @@ MUTED = "#9AA4B2"
 ACCENT = "#E65B49"
 GREEN = "#55C98B"
 
+# Compact embedded UniGame controller logo (GIF, 64x64).
+LOGO_GIF_BASE64 = "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"
+
 SOURCES = [
     "Steam", "Epic Games", "Ubisoft Connect", "EA App",
     "Xbox", "GOG", "Roblox", "itch.io", "Standalone"
@@ -535,6 +538,10 @@ class Launcher:
         self.root.geometry("1250x790")
         self.root.minsize(950, 620)
         self.root.configure(bg=BG)
+        try:
+            self.root.iconphoto(True, tk.PhotoImage(data=LOGO_GIF_BASE64))
+        except tk.TclError:
+            pass
 
         self.search_var = tk.StringVar()
         self.status_var = tk.StringVar(value="Ready")
@@ -731,10 +738,11 @@ class Launcher:
 
         brand = tk.Frame(self.sidebar, bg=SIDEBAR)
         brand.pack(fill="x", padx=18, pady=(23, 30))
-        mark = tk.Frame(brand, bg=ACCENT, width=36, height=36)
+        mark = tk.Frame(brand, bg="#090A0D", width=46, height=46)
         mark.pack(side="left", padx=(0, 10))
         mark.pack_propagate(False)
-        self.label(mark, "U", 19, "white", True, bg=ACCENT).place(relx=.5, rely=.5, anchor="center")
+        self.logo_image = tk.PhotoImage(data=LOGO_GIF_BASE64).subsample(2, 2)
+        tk.Label(mark, image=self.logo_image, bg="#090A0D", bd=0).place(relx=.5, rely=.5, anchor="center")
         brand_text = tk.Frame(brand, bg=SIDEBAR)
         brand_text.pack(side="left")
         self.label(brand_text, "UniGame", 15, TEXT, True, bg=SIDEBAR).pack(anchor="w")
@@ -816,18 +824,18 @@ class Launcher:
         self.nav[name] = button
 
     def search_focus(self, _event):
-        if self.search_entry.get() == "Search...":
+        if self.search_entry.get().strip().lower() in ("search...", "search games..."):
             self.search_entry.delete(0, "end")
             self.search_entry.configure(fg=TEXT)
 
     def search_blur(self, _event):
         if not self.search_entry.get().strip():
-            self.search_entry.insert(0, "Search...")
+            self.search_entry.insert(0, "Search games...")
             self.search_entry.configure(fg=MUTED)
 
     def search_query(self):
         value = self.search_var.get().strip().lower()
-        return "" if value == "search..." else value
+        return "" if value in ("search...", "search games...") else value
 
     def navigate(self, page):
         if page == "Add game":
@@ -933,10 +941,11 @@ class Launcher:
         self.label(hero_left, "READY WHEN YOU ARE", 8, "#F18A79", True, bg="#202936").pack(anchor="w")
         self.label(hero_left, "Pick up where you left off.", 17, TEXT, True, bg="#202936").pack(anchor="w", pady=(5, 3))
         self.label(hero_left, "Launch a game or add something new to your collection.", 9, "#B3BDCA", bg="#202936").pack(anchor="w")
-        hero_mark = tk.Frame(hero, bg="#293747", width=104, height=90)
+        hero_mark = tk.Frame(hero, bg="#090A0D", width=104, height=90)
         hero_mark.pack(side="right", padx=20, pady=12)
         hero_mark.pack_propagate(False)
-        self.label(hero_mark, "U", 43, "#DDE5EF", True, bg="#293747").place(relx=.5, rely=.5, anchor="center")
+        self.logo_large = tk.PhotoImage(data=LOGO_GIF_BASE64)
+        tk.Label(hero_mark, image=self.logo_large, bg="#090A0D", bd=0).place(relx=.5, rely=.5, anchor="center")
 
         stats = tk.Frame(self.content, bg=BG)
         stats.pack(fill="x", pady=(0, 17))
@@ -2383,6 +2392,16 @@ def build_exe():
     root = Path(__file__).resolve().parent
     script = Path(__file__).resolve()
     icon = root / "UniGameLauncher.ico"
+    try:
+        from PIL import Image
+        from io import BytesIO
+        logo = Image.open(BytesIO(base64.b64decode(LOGO_GIF_BASE64))).convert("RGBA")
+        logo.save(icon, format="ICO", sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64)])
+    except ImportError:
+        print("Pillow is needed to create the Windows EXE icon.")
+        print("Install it with: python -m pip install pillow")
+    except Exception as error:
+        print("Could not generate the EXE icon:", error)
 
     command = [
         sys.executable, "-m", "PyInstaller",
